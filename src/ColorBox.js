@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Card} from "./Card";
+import { Card } from "./Card";
 
 export class ColorBox extends Component {
   constructor() {
@@ -10,24 +10,30 @@ export class ColorBox extends Component {
     this.colorRef = React.createRef();
 
     this.state = {
-      arr:[]
+      arr: [],
     };
     this.startGame = this.startGame.bind(this);
   }
 
-    startGame() {
-        let width=this.widthRef.current.value;
-        let height=this.heightRef.current.value;
-      let color=this.colorRef.current.value;
-      
-      let arr=[...this.state.arr]
-      arr.push({
-        width,
-        height,
-        color
-      })
+  startGame() {
+    let width = this.widthRef.current.value;
+    let height = this.heightRef.current.value;
+    let color = this.colorRef.current.value;
 
-      this.setState({arr})
+    let arr = [...this.state.arr];
+    arr.push({
+      width,
+      height,
+      color,
+    });
+
+    this.setState({ arr });
+  }
+
+  deleteButton(id) {
+    let arr = [...this.state.arr];
+    arr.splice(id, 1);
+    this.setState({ arr });
   }
 
   render() {
@@ -36,7 +42,7 @@ export class ColorBox extends Component {
         <h1>Color Box</h1>
         <label>Width: </label>
         <input ref={this.widthRef} type="text" id="width" />
-         (px)
+        (px)
         <br />
         <br />
         <label>Heigth: </label>
@@ -49,8 +55,15 @@ export class ColorBox extends Component {
         <br />
         <br />
         <button onClick={this.startGame}>Create</button>
-        <div style={{marginTop:20}}>
-          {this.state.arr.map((item,index) => <Card key={`card-${index}`} {...item} />)}
+        <div style={{ marginTop: 20 }}>
+          {this.state.arr.map((item, index) => (
+            <div key={`card-${index}`}>
+              <Card {...item} />
+              <button onClick={() => this.deleteButton(`card-${index}`)}>
+                X
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     );
